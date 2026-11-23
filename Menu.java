@@ -2,6 +2,11 @@ import java.util.Scanner;
 
 public class Menu {
 	Scanner scanner = new Scanner(System.in);
+	private final ArquivoUsuarios arquivoUsuarios;
+
+	public Menu(ArquivoUsuarios arquivoUsuarios) {
+		this.arquivoUsuarios = arquivoUsuarios;
+	}
 
 	public void exibirMenu() {
 		System.out.println("!===! RPG - Mago Compilador !===!");
@@ -36,6 +41,11 @@ public class Menu {
 
 		System.out.print("Bem-vindo, " + login + " [" + senha + "]!");
 
+		// if (usuario instanceof Aventureiro) {
+		this.exibirMenuAventureiro();
+		// } else if
+		this.exibirMenuMestre();
+		// }
 		System.out.println("Erro no servidor, tente novamente mais tarde!");
 	}
 
@@ -49,11 +59,57 @@ public class Menu {
 
 		System.out.print("Senha: ");
 		String senha = scanner.nextLine();
-		Aventureiro aventureiro = new Aventureiro(login, senha);
 
-		System.out.print("Usuário, " + aventureiro.getLogin() + " criado com sucesso!");
+		try {
+			Aventureiro aventureiro = Aventureiro.registrarAventureiro(arquivoUsuarios, login, senha);
+			System.out.println(
+					"Usuário \"" + aventureiro.getLogin() + "\" criado com sucesso! (ID: " + aventureiro.getId() + ")");
+		} catch (IllegalArgumentException e) {
+			System.out.println("Não foi possível cadastrar: " + e.getMessage());
+		}
 
-		System.out.println("Erro no servidor, tente novamente mais tarde!");
+	}
+
+	private void exibirMenuAventureiro() {
+		System.out.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		System.out.println("1) Nova Partida");
+		System.out.println("2) Ranking");
+		System.out.println("3) Histórico");
+		System.out.println("0) Sair");
+
+		System.out.print("opção: ");
+		int opcEscolhida = scanner.nextInt();
+		System.out.println("");
+
+		switch (opcEscolhida) {
+			case 1 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			case 2 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			case 3 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			case 0 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			default -> System.out.println("Escolha uma opção válida");
+		}
+	}
+
+	private void exibirMenuMestre() {
+		System.out.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		System.out.println("1) Usuários");
+		System.out.println("2) Itens");
+		System.out.println("3) Monstros");
+		System.out.println("4) Relatórios");
+		System.out.println("0) Sair");
+
+		System.out.print("opção: ");
+		int opcEscolhida = scanner.nextInt();
+		System.out.println("");
+
+		switch (opcEscolhida) {
+			case 1 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			case 2 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			case 3 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			case 4 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			case 0 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			default -> System.out.println("Escolha uma opção válida");
+		}
 	}
 
 }

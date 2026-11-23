@@ -2,10 +2,20 @@ public class Aventureiro extends Usuario {
 	private int pontuacaMaxima;
 	private int partidasJogadas;
 
+	public Aventureiro(int id, String login, String senha, int pontuacaMaxima, int partidasJogadas) {
+		super(id, login, senha);
+		this.pontuacaMaxima = pontuacaMaxima;
+		this.partidasJogadas = partidasJogadas;
+	}
+
 	public Aventureiro(String login, String senha) {
-		super(login, senha);
-		this.pontuacaMaxima = 0;
-		this.partidasJogadas = 0;
+		this(0, login, senha, 0, 0);
+	}
+
+	public static Aventureiro registrarAventureiro(ArquivoUsuarios arquivoUsuarios, String login, String senha) {
+		Aventureiro aventureiro = new Aventureiro(login, senha);
+		arquivoUsuarios.adicionar(aventureiro);
+		return aventureiro;
 	}
 
 	public void atualizarEstatisticas(int pontuacao) {
@@ -19,5 +29,10 @@ public class Aventureiro extends Usuario {
 
 	public int getPartidasJogadas() {
 		return partidasJogadas;
+	}
+
+	@Override
+	public Perfil getPerfil() {
+		return Perfil.AVENTUREIRO;
 	}
 }

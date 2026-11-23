@@ -7,6 +7,12 @@ public abstract class Usuario extends Entidade {
 		this.senha = senha;
 	}
 
+	public Usuario(int id, String login, String senha) {
+		setId(id);
+		this.login = login;
+		this.senha = senha;
+	}
+
 	public Usuario logar(String login, String senha) {
 		// Retornar o usuario encontrado ao filtrar o nome;
 		Usuario usuario = this.procurarUsuario(login);
@@ -31,4 +37,10 @@ public abstract class Usuario extends Entidade {
 	public String getLogin() {
 		return this.login;
 	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public abstract Perfil getPerfil();
 }
