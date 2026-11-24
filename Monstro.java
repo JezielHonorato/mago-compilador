@@ -4,4 +4,8 @@ public class Monstro extends Criatura {
 		super(ataque, defesa, nome, vida, vidaMaxima);
 	}
 
+	public Monstro(int id, int ataque, int defesa, String nome, int vida, int vidaMaxima) {
+		super(ataque, defesa, nome, vida, vidaMaxima);
+		setId(id);
+	}
 }

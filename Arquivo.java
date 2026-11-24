@@ -14,6 +14,7 @@ public abstract class Arquivo<T extends Entidade> {
 	private final Path arquivo;
 	private final String nomeEntidade;
 	private final Map<Integer, T> dados = new LinkedHashMap<>();
+	private boolean arquivoCarregado;
 
 	protected Arquivo(Path arquivo, String nomeEntidade) {
 		this.arquivo = arquivo;
@@ -42,10 +43,13 @@ public abstract class Arquivo<T extends Entidade> {
 			}
 		} catch (IOException ex) {
 			System.getLogger(Arquivo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+		} finally {
+			arquivoCarregado = true;
 		}
 	}
 
 	public T adicionar(T entidade) {
+		carregarSeNecessario();
 		validarUnicidade(entidade);
 		int proximo = dados.keySet().stream().mapToInt(Integer::intValue).max().orElse(0) + 1;
 		entidade.setId(proximo);
@@ -55,6 +59,7 @@ public abstract class Arquivo<T extends Entidade> {
 	}
 
 	public void atualizar(T entidade) {
+		carregarSeNecessario();
 		buscar(entidade.getId());
 		validarUnicidade(entidade);
 		dados.put(entidade.getId(), entidade);
@@ -62,18 +67,26 @@ public abstract class Arquivo<T extends Entidade> {
 	}
 
 	public void remover(int id) {
+		carregarSeNecessario();
 		buscar(id);
 		dados.remove(id);
 		persistir();
 	}
 
 	public T buscar(int id) {
+		carregarSeNecessario();
 		T elemento = dados.get(id);
 		return elemento;
 	}
 
 	public List<T> listar() {
+		carregarSeNecessario();
 		return new ArrayList<>(dados.values());
+	}
+
+	private void carregarSeNecessario() {
+		if (!arquivoCarregado)
+			carregarArquivo();
 	}
 
 	private void validarUnicidade(T chave) {
