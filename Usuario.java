@@ -19,12 +19,14 @@ public abstract class Usuario extends Entidade {
 		// colocar tudo num try pra se nao existir
 		if (!usuario.checarSenha(senha)) {
 			// lançar erro;
+			//System.out.println("Senha errada"); //implementação temporária
 		}
 		return usuario;
 	}
 
 	private Usuario procurarUsuario(String login) {
 		// noa uqero mexer nisso agora
+	
 		System.err.println(this.login);
 		Usuario usuario = new Aventureiro(login, "senha");
 		return usuario;
