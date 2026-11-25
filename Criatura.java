@@ -1,4 +1,4 @@
-public class Criatura extends Entidade {
+public abstract Criatura extends Entidade {
 	private final String nome;
 	private int vidaMaxima;
 	private int vida;
@@ -51,5 +51,41 @@ public class Criatura extends Entidade {
 
 	public void setVida(int vida) {
 		this.vida = vida;
+	}
+
+	public abstract int calcularAtaque(){}
+
+	public int calcularDefesa(){return defesa;}
+
+	public final int receberAtaque(int poder, double penetracao) {
+		int def = (int) Math.round(calcularDefesa() * (1.0 - penetracao));
+		int dano = Math.max(1, poder - def);
+		dano = absorverDano(dano);
+		vidaAtual = Math.max(0, vidaAtual - dano);
+		aoReceberDano(dano);
+		return dano;
+	}
+	public int receberAtaque(int poder) { return receberAtaque(poder, 0.0); }
+
+	public int curar(int quantidade) {
+		int antes = vidaAtual;
+		vidaAtual = Math.min(vidaMaxima, vidaAtual + quantidade);
+		return vidaAtual - antes;
+	}
+
+	public int sofrerDanoAmbiental(int quantidade) {
+		int perda = Math.max(0, Math.min(quantidade, vidaAtual - 1));
+		vidaAtual -= perda;
+		return perda;
+	}
+
+	protected int absorverDano(int dano) { return dano; }
+	
+	protected void aoReceberDano(int dano) { }
+
+	protected void aumentarAtributos(int vida, int atk, int def) {
+		vidaMaxima += vida;
+		ataque += atk;
+		defesa += def;
 	}
 }
