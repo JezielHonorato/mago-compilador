@@ -8,4 +8,10 @@ public class Monstro extends Criatura {
 		super(ataque, defesa, nome, vida, vidaMaxima);
 		setId(id);
 	}
+
+	//Necessário checar a implementação
+	@Override
+	public int calcularAtaque(){
+		return getAtaque();
+	}
 }

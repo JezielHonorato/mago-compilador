@@ -6,8 +6,6 @@ public class Main {
 		arquivoUsuarios.carregarArquivo();
 		Menu menu = new Menu(arquivoUsuarios);
 		menu.exibirMenu();
-		
 
-		
 	}
 }
