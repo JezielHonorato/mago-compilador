@@ -1,27 +1,25 @@
 public class Arma extends Item{
-    private int dano;
-    private int nivelRequerido;
+    private final int dano;
+    private final int nivelRequerido;
+    private final TipoArmas tipoArma;
 
-    public Arma(String nome, int valor, int dano, int nivelRequerido){
+    public Arma(String nome, int valor, int dano, int nivelRequerido,  TipoArmas tipoArma){
         super(nome, valor);
-        setDano(dano);
-        setNivelRequerido(nivelRequerido);
+        this.dano = dano;
+        this.nivelRequerido = nivelRequerido;
+        this.tipoArma = tipoArma;
     }
 
     public int getDano() {
         return dano;
     }
 
-    public void setDano(int dano) {
-        this.dano = dano;
-    }
-
     public int getNivelRequerido() {
         return nivelRequerido;
     }
 
-    public void setNivelRequerido(int nivelRequerido) {
-        this.nivelRequerido = nivelRequerido;
+    public TipoArmas getTipoArma() {
+        return tipoArma;
     }
 
     @Override
@@ -32,7 +30,7 @@ public class Arma extends Item{
 
     @Override
     public String descricao(){
-        return getNome() + " (" + getTipo() + "), " + dano + " (dano), "
-                + nivelRequerido + " nível, " + getValor() + " (Valor em Ouro).";
+        return getNome() + " (" + tipoArma + "), " + dano + " (dano), "
+                + nivelRequerido + " (nível necessário), " + getValor() + " (Valor em Ouro).";
     }
 }
