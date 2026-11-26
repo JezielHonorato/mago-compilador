@@ -13,20 +13,23 @@ public abstract class Usuario extends Entidade {
 		this.senha = senha;
 	}
 
-	public Usuario logar(String login, String senha) {
+	public boolean logar(String login, String senha) {
 		// Retornar o usuario encontrado ao filtrar o nome;
-		Usuario usuario = this.procurarUsuario(login);
+		//Usuario usuario = this.procurarUsuario(login);
 		// colocar tudo num try pra se nao existir
-		if (!usuario.checarSenha(senha)) {
+
+		if (!this.checarSenha(senha)) {
 			// lançar erro;
-			//System.out.println("Senha errada"); //implementação temporária
+			System.out.println("Senha errada"); //implementação temporária
+			//lançar exceção depois
+			return false;
 		}
-		return usuario;
+		return true;
 	}
 
 	private Usuario procurarUsuario(String login) {
 		// noa uqero mexer nisso agora
-	
+		//nao precisa mais mexer
 		System.err.println(this.login);
 		Usuario usuario = new Aventureiro(login, "senha");
 		return usuario;

@@ -38,12 +38,16 @@ public class Menu {
 
 		System.out.print("Senha: ");
 		String senha = scanner.nextLine();
-		// Usuario usuario = Usuario.logar(login, senha);
 
 		Usuario usuarioAtual = arquivoUsuarios.buscarPorLogin(login).orElse(null);
 
 		if (usuarioAtual == null) {
 			System.out.println("Login não encontrado."); //implementar mensagem de erro
+			return;
+		}
+
+		if (!usuarioAtual.logar(usuarioAtual.getLogin(), senha)){
+			System.out.println("Senha incorreta");
 			return;
 		}
 
