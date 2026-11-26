@@ -1,13 +1,21 @@
-public class Arma extends Item{
+public class Arma extends Item {
     private final int dano;
     private final int nivelRequerido;
     private final TipoArmas tipoArma;
 
-    public Arma(String nome, int valor, int dano, int nivelRequerido,  TipoArmas tipoArma){
-        super(nome, valor);
-        this.dano = dano;
+    public Arma(String nome, int valor, int dano, int nivelRequerido, TipoArmas tipoArma, Raridade raridade) {
+        super(nome, valor, raridade);
+        if (dano > getRaridade().getPoderMaximo()) {
+            this.dano = getRaridade().getPoderMaximo();
+        } else {
+            this.dano = dano;
+        }
         this.nivelRequerido = nivelRequerido;
         this.tipoArma = tipoArma;
+    }
+
+    public Arma(String nome, int valor, int dano, int nivelRequerido, TipoArmas tipoArma) {
+        this(nome, valor, dano, nivelRequerido, tipoArma, Raridade.determinarPorPoder(dano));
     }
 
     public int getDano() {
@@ -23,14 +31,16 @@ public class Arma extends Item{
     }
 
     @Override
-    public String usar(Personagem personagem){
-        personagem.equipar(this);
-        return "Você empulhou " + getNome() + ".";
+    public String usar(Personagem personagem) {
+        if (!personagem.equipar(this)) {
+            return "Nível insuficiente para equipar " + getNome() + " (requer nível " + nivelRequerido + ").";
+        }
+        return "Você empunhou " + getNome() + " [" + getRaridade() + "].";
     }
 
     @Override
-    public String descricao(){
-        return getNome() + " (" + tipoArma + "), " + dano + " (Dano), "
+    public String descricao() {
+        return getNome() + " [" + getRaridade() + "] (" + tipoArma + "), " + dano + " (Dano), "
                 + nivelRequerido + " (Nível Necessário), " + getValor() + " (Valor em Ouro).";
     }
 }
