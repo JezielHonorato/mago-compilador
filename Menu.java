@@ -28,6 +28,7 @@ public class Menu {
 	}
 
 	private void exibirMenuLogin() {
+
 		System.out.println("!====! RPG - Mago Compilador !====!");
 		System.out.println("!===! Digite suas credenciais !===!");
 
@@ -39,13 +40,21 @@ public class Menu {
 		String senha = scanner.nextLine();
 		// Usuario usuario = Usuario.logar(login, senha);
 
-		System.out.print("Bem-vindo, " + login + " [" + senha + "]!");
+		Usuario usuarioAtual = arquivoUsuarios.buscarPorLogin(login).orElse(null);
 
-		// if (usuario instanceof Aventureiro) {
-		this.exibirMenuAventureiro();
-		// } else if
-		this.exibirMenuMestre();
-		// }
+		if (usuarioAtual == null) {
+			System.out.println("Login não encontrado."); //implementar mensagem de erro
+			return;
+		}
+
+		System.out.println("Bem-vindo, " + usuarioAtual.getLogin() + "!");
+
+		if (usuarioAtual instanceof Aventureiro) {
+			this.exibirMenuAventureiro(); //resolver depois
+		} else{
+			this.exibirMenuMestre();
+		}
+		
 		System.out.println("Erro no servidor, tente novamente mais tarde!");
 	}
 
