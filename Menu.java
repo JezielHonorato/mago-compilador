@@ -89,7 +89,7 @@ public class Menu {
 	}
 
 	private void exibirMenuAventureiro() {
-		System.out.println("!===! RPG - Mago Compilador ( " + this.usuarioLogado.getLogin() + " ) !===!"); // editar dps;
+		System.out.println("!===! RPG - Mago Compilador ( " + this.usuarioLogado.getLogin() + " ) !===!");
 		System.out.println("1) Nova Partida");
 		System.out.println("2) Ranking");
 		System.out.println("3) Histórico");
