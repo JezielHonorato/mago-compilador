@@ -14,4 +14,9 @@ public class Monstro extends Criatura {
 	public int calcularAtaque(){
 		return getAtaque();
 	}
+
+	@Override
+	public int calcularDefesa(){
+		return getDefesa();
+	}
 }
