@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.nio.file.Path;
 
 public class Menu {
+	Usuario usuarioLogado = null;
+
 	Scanner scanner = new Scanner(System.in);
 	private final ArquivoUsuarios arquivoUsuarios;
 
@@ -52,6 +54,8 @@ public class Menu {
 			return;
 		}
 
+		this.usuarioLogado = usuarioAtual;
+
 		System.out.println("Bem-vindo, " + usuarioAtual.getLogin() + "!");
 
 		if (usuarioAtual instanceof Aventureiro) {
@@ -85,7 +89,7 @@ public class Menu {
 	}
 
 	private void exibirMenuAventureiro() {
-		System.out.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		System.out.println("!===! RPG - Mago Compilador ( " + this.usuarioLogado.getLogin() + " ) !===!"); // editar dps;
 		System.out.println("1) Nova Partida");
 		System.out.println("2) Ranking");
 		System.out.println("3) Histórico");
