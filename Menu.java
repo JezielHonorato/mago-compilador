@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.nio.file.Path;
 
 public class Menu {
 	Scanner scanner = new Scanner(System.in);
@@ -118,11 +119,135 @@ public class Menu {
 		switch (opcEscolhida) {
 			case 1 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
 			case 2 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
-			case 3 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
+			case 3 -> this.exibirMenuMonstro();
 			case 4 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
 			case 0 -> System.out.println("Erro no servidor, tente novamente mais tarde!");
 			default -> System.out.println("Escolha uma opção válida");
 		}
 	}
 
+	private void exibirMenuMonstro(){
+		System.out.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		System.out.println("1) Listar ");
+		System.out.println("2) Adicionar");
+		System.out.println("3) Remover");
+		System.out.println("4) Atualizar");
+		System.out.println("0) Sair");
+
+		System.out.print("opção: ");
+		int opcEscolhida = scanner.nextInt();
+		System.out.println("");
+
+		switch (opcEscolhida) {
+			case 1 : this.exibirTodosMonstros();
+			break;
+			case 2 : this.exibirMenuAdicionarMonstro();
+			break;
+			case 3 : this.exibirMenuRemoverMonstro();
+			break;
+			case 4 : this.exibirMenuAtualizarMonstro();
+			break;
+			case 0 : System.out.println("Erro no servidor, tente novamente mais tarde!");
+			break;
+			default : System.out.println("Escolha uma opção válida");
+		}
+	}
+
+	private void exibirMenuRemoverMonstro() {
+		System.out.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		System.out.println("!===! Remover Monstro !===!");
+		System.out.print("ID do Monstro: ");
+		int id = scanner.nextInt();
+
+		ArquivoMonstro arquivoMonstro = new ArquivoMonstro(Path.of("data"));
+		arquivoMonstro.carregarArquivo();
+		try {
+			arquivoMonstro.remover(id);
+			System.out.println("Monstro com ID " + id + " removido com sucesso!");
+		} catch (IllegalArgumentException e) {
+			System.out.println("Não foi possível remover o monstro: " + e.getMessage());
+		}
+	}
+
+	private void exibirMenuAtualizarMonstro() {
+		System.out.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		System.out.println("!===! Atualizar Monstro !===!");
+		System.out.print("ID do Monstro: ");
+		int id = scanner.nextInt();
+
+		ArquivoMonstro arquivoMonstro = new ArquivoMonstro(Path.of("data"));
+		arquivoMonstro.carregarArquivo();
+		Monstro monstro = arquivoMonstro.buscar(id);
+
+		if (monstro == null) {
+			System.out.println("Monstro com ID " + id + " não encontrado.");
+			return;
+		}
+
+		System.out.print("O Nome se mantém igual");
+		scanner.nextLine(); // sem essa linha ele tava lendo o vazio;
+
+		System.out.print("Novo Ataque (atual: " + monstro.getAtaque() + "): ");
+		int novoAtaque = scanner.nextInt();
+
+		System.out.print("Nova Defesa (atual: " + monstro.getDefesa() + "): ");
+		int novaDefesa = scanner.nextInt();
+
+		System.out.print("Nova Vida Máxima (atual: " + monstro.getVidaMaxima() + "): ");
+		int novaVidaMaxima = scanner.nextInt();
+
+		System.out.print("Nova Vida Atual (atual: " + monstro.getVida() + "): ");
+		int novaVidaAtual = scanner.nextInt();
+
+		monstro.setAtaque(novoAtaque);
+		monstro.setDefesa(novaDefesa);
+		monstro.setVidaMaxima(novaVidaMaxima);
+		monstro.setVida(novaVidaAtual);
+
+		try {
+			arquivoMonstro.atualizar(monstro);
+			System.out.println("Monstro \"" + monstro.getNome() + "\" atualizado com sucesso!");
+		} catch (IllegalArgumentException e) {
+			System.out.println("Não foi possível atualizar o monstro: " + e.getMessage());
+		}
+	}
+
+	private void exibirMenuAdicionarMonstro() {
+		System.out.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		System.out.println("!===! Adicionar Monstro !===!");
+		System.out.print("Nome: ");
+		scanner.nextLine(); // sem essa linha ele tava lendo o vazio;
+		String nome = scanner.nextLine();
+
+		System.out.print("Ataque: ");
+		int ataque = scanner.nextInt();
+
+		System.out.print("Defesa: ");
+		int defesa = scanner.nextInt();
+
+		System.out.print("Vida Máxima: ");
+		int vidaMaxima = scanner.nextInt();
+
+		System.out.print("Vida Atual: ");
+		int vidaAtual = scanner.nextInt();
+
+		Monstro monstro = new Monstro(ataque, defesa, nome, vidaAtual, vidaMaxima);
+		ArquivoMonstro arquivoMonstro = new ArquivoMonstro(Path.of("data"));
+		arquivoMonstro.carregarArquivo();
+		arquivoMonstro.adicionar(monstro);
+
+		System.out.println("Monstro \"" + monstro.getNome() + "\" adicionado com sucesso! (ID: " + monstro.getId() + ")");
+	}
+
+	private void exibirTodosMonstros() {
+		System.out.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		System.out.println("!===! Lista de Monstros !===!");
+		System.out.println("ID | Nome | Ataque | Defesa | Vida Máxima | Vida Atual");
+		ArquivoMonstro arquivoMonstro = new ArquivoMonstro(Path.of("data"));
+		arquivoMonstro.carregarArquivo();
+		for (Monstro m : arquivoMonstro.listar()) {
+			System.out.println(m.getId() + " | " + m.getNome() + " | " + m.getAtaque() + " | " + m.getDefesa()
+					+ " | " + m.getVidaMaxima() + " | " + m.getVida());
+		}
+	}
 }
