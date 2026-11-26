@@ -55,7 +55,7 @@ public abstract class Criatura extends Entidade {
 
 	public abstract int calcularAtaque();
 
-	public int calcularDefesa(){return defesa;}
+	public abstract int calcularDefesa();
 
 	public final int receberAtaque(int poder, double penetracao) {
 		int def = (int) Math.round(calcularDefesa() * (1.0 - penetracao));

@@ -30,7 +30,7 @@ public class Arma extends Item{
 
     @Override
     public String descricao(){
-        return getNome() + " (" + tipoArma + "), " + dano + " (dano), "
-                + nivelRequerido + " (nível necessário), " + getValor() + " (Valor em Ouro).";
+        return getNome() + " (" + tipoArma + "), " + dano + " (Dano), "
+                + nivelRequerido + " (Nível Necessário), " + getValor() + " (Valor em Ouro).";
     }
 }
