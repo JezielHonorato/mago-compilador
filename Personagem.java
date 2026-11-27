@@ -1,3 +1,7 @@
+import Excecoes.ArgumentoInvalidoException;
+import Excecoes.GuildaException;
+import Excecoes.ItemNaoEncontradoException;
+
 public abstract class Personagem extends Criatura {
 
 	private int nivel;
@@ -40,15 +44,23 @@ public abstract class Personagem extends Criatura {
 	}
 
 	public String acharItem(Item item) {
-		String resultado = this.inventario.adicionarItem(item);
-		return "Você encontrou [" + item.getRaridade() + "] " + item.getNome() + "! " + resultado;
+		try {
+			String resultado = this.inventario.adicionarItem(item);
+			return "Você encontrou [" + item.getRaridade() + "] " + item.getNome() + "! " + resultado;
+		}catch (ArgumentoInvalidoException e){
+			return e.getMessage();
+		}
 	}
 
 	public String usarItem(Item item) {
-		if (item == null || !inventario.contem(item)) {
-			return "Item não encontrado no inventário.";
+		try{
+			if (item == null || !inventario.contem(item)) {
+				throw new ItemNaoEncontradoException("Item não encontrado no inventário.");
+			}
+			return item.usar(this);
+		}catch (GuildaException e){
+			return e.getMessage();
 		}
-		return item.usar(this);
 	}
 
 	public boolean equipar(Arma arma) {
