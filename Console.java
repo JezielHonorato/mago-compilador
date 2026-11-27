@@ -21,16 +21,22 @@ public class Console {
 	public String lerLinha(String label) {
 		System.out.print(label + " ");
 		String entrada = scan.nextLine();
-		if (entrada.trim().equals("")) { // ignorar entradas nulas;
-			return scan.nextLine();
+		while (entrada.trim().isEmpty()) {
+			entrada = scan.nextLine();
 		}
 		return entrada;
 	}
 
 	public int lerInteiro(String label) {
-		System.out.print(label + " ");
-		int entrada = scan.nextInt();
-		return entrada;
+		while (true) {
+			System.out.print(label + " ");
+			String linha = scan.nextLine().trim();
+			try {
+				return Integer.parseInt(linha);
+			} catch (NumberFormatException e) {
+				this.println("Digite um número inteiro válido!");
+			}
+		}
 	}
 
 	private void sleep(int time) {
@@ -43,7 +49,7 @@ public class Console {
 
 	public int lerRangeInteiro(String label, int min, int max) {
 		int n = this.lerInteiro(label);
-		if (n <= min || n >= max) {
+		if (n < min || n > max) {
 			this.println("\nEscolha uma opção válida!");
 			this.sleep(1000);
 			this.println("");

@@ -12,17 +12,21 @@ public class Menu {
 	}
 
 	public void exibirMenu() {
-		console.printTitulo();
-		console.println("1) Entrar");
-		console.println("2) Criar nova conta de Aventureiro");
-		console.println("0) Sair");
+		int opcao;
+		do {
+			console.printTitulo();
+			console.println("1) Entrar");
+			console.println("2) Criar nova conta de Aventureiro");
+			console.println("0) Sair");
 
-		switch (console.lerRangeInteiro("Opção:", 0, 2)) {
-			case 1 -> this.exibirMenuLogin();
-			case 2 -> this.exibirMenuCriarContaAventureiro();
-			case 0 -> console.println("Até a próxima!");
-			default -> exibirMenu();
-		}
+			opcao = console.lerRangeInteiro("Opção:", 0, 2);
+
+			switch (opcao) {
+				case 1 -> this.exibirMenuLogin();
+				case 2 -> this.exibirMenuCriarContaAventureiro();
+				case 0 -> console.println("Até a próxima!");
+			}
+		} while (opcao != 0);
 	}
 
 	private void exibirMenuLogin() {
@@ -32,22 +36,19 @@ public class Menu {
 		String login = console.lerLinha("Login:");
 		String senha = console.lerLinha("Senha:");
 
-		// pede a senha antes de verificar o login pra evitar forca bruta de senha;
-		// jogar tudo pra um service dps
 		Usuario usuarioAtual = arquivoUsuarios.buscarPorLogin(login).orElse(null);
 
 		if (usuarioAtual == null) {
-			console.println("Login não encontrado."); // implementar mensagem de erro
+			console.println("Login não encontrado.");
 			return;
 		}
 
 		if (!usuarioAtual.logar(usuarioAtual.getLogin(), senha)) {
-			console.println("Senha incorreta");
+			console.println("Senha incorreta.");
 			return;
 		}
 
 		this.usuarioLogado = usuarioAtual;
-
 		console.println("Bem-vindo, " + usuarioAtual.getLogin() + "!");
 
 		if (usuarioAtual instanceof Aventureiro) {
@@ -59,7 +60,7 @@ public class Menu {
 
 	private void exibirMenuCriarContaAventureiro() {
 		console.printTitulo();
-		console.println("!===! Digite as credenciais do novo Aventureito !===!");
+		console.println("!===! Digite as credenciais do novo Aventureiro !===!");
 
 		String login = console.lerLinha("Login:");
 		String senha = console.lerLinha("Senha:");
@@ -71,60 +72,77 @@ public class Menu {
 		} catch (IllegalArgumentException e) {
 			console.println("Não foi possível cadastrar: " + e.getMessage());
 		}
-
 	}
 
 	private void exibirMenuAventureiro() {
-		console.printTitulo(this.usuarioLogado.getLogin());
-		console.println("1) Nova Partida");
-		console.println("2) Ranking");
-		console.println("3) Histórico");
-		console.println("0) Sair");
+		int opcao;
+		do {
+			console.printTitulo(this.usuarioLogado.getLogin());
+			console.println("1) Nova Partida");
+			console.println("2) Ranking");
+			console.println("3) Histórico");
+			console.println("0) Sair da conta");
 
-		switch (console.lerRangeInteiro("Opção:", 0, 3)) {
-			case 1 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			case 2 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			case 3 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			case 0 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			default -> exibirMenuAventureiro();
-		}
+			opcao = console.lerRangeInteiro("Opção:", 0, 3);
+
+			switch (opcao) {
+				case 1 -> console.println("Erro no servidor, tente novamente mais tarde!");
+				case 2 -> console.println("Erro no servidor, tente novamente mais tarde!");
+				case 3 -> console.println("Erro no servidor, tente novamente mais tarde!");
+				case 0 -> {
+					this.usuarioLogado = null;
+					console.println("Voltando ao menu principal...");
+				}
+			}
+		} while (opcao != 0);
 	}
 
 	private void exibirMenuMestre() {
-		console.printTitulo(this.usuarioLogado.getLogin());
-		console.println("1) Usuários");
-		console.println("2) Itens");
-		console.println("3) Monstros");
-		console.println("4) Relatórios");
-		console.println("0) Sair");
+		int opcao;
+		do {
+			console.printTitulo(this.usuarioLogado.getLogin());
+			console.println("1) Usuários");
+			console.println("2) Itens");
+			console.println("3) Monstros");
+			console.println("4) Relatórios");
+			console.println("0) Sair da conta");
 
-		switch (console.lerRangeInteiro("Opção:", 0, 4)) {
-			case 1 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			case 2 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			case 3 -> this.exibirMenuMonstro();
-			case 4 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			case 0 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			default -> exibirMenuMestre();
-		}
+			opcao = console.lerRangeInteiro("Opção:", 0, 4);
+
+			switch (opcao) {
+				case 1 -> console.println("Erro no servidor, tente novamente mais tarde!");
+				case 2 -> console.println("Erro no servidor, tente novamente mais tarde!");
+				case 3 -> this.exibirMenuMonstro();
+				case 4 -> console.println("Erro no servidor, tente novamente mais tarde!");
+				case 0 -> {
+					this.usuarioLogado = null;
+					console.println("Voltando ao menu principal...");
+				}
+			}
+		} while (opcao != 0);
 	}
 
 	private void exibirMenuMonstro() {
-		console.printTitulo(this.usuarioLogado.getLogin());
-		console.println("!==============!  Menu de Monstros !==============!"); // editar dps;
-		console.println("1) Listar ");
-		console.println("2) Adicionar");
-		console.println("3) Remover");
-		console.println("4) Atualizar");
-		console.println("0) Sair");
+		int opcao;
+		do {
+			console.printTitulo(this.usuarioLogado.getLogin());
+			console.println("!==============!  Menu de Monstros !==============!");
+			console.println("1) Listar");
+			console.println("2) Adicionar");
+			console.println("3) Remover");
+			console.println("4) Atualizar");
+			console.println("0) Voltar");
 
-		switch (console.lerRangeInteiro("Opção:", 0, 4)) {
-			case 1 -> this.exibirTodosMonstros();
-			case 2 -> this.exibirMenuAdicionarMonstro();
-			case 3 -> this.exibirMenuRemoverMonstro();
-			case 4 -> this.exibirMenuAtualizarMonstro();
-			case 0 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			default -> exibirMenuMonstro();
-		}
+			opcao = console.lerRangeInteiro("Opção:", 0, 4);
+
+			switch (opcao) {
+				case 1 -> this.exibirTodosMonstros();
+				case 2 -> this.exibirMenuAdicionarMonstro();
+				case 3 -> this.exibirMenuRemoverMonstro();
+				case 4 -> this.exibirMenuAtualizarMonstro();
+				case 0 -> console.println("Voltando ao menu do Mestre...");
+			}
+		} while (opcao != 0);
 	}
 
 	private void exibirMenuRemoverMonstro() {
@@ -160,7 +178,7 @@ public class Menu {
 		int novoAtaque = console.lerInteiro("Novo Ataque (atual: " + monstro.getAtaque() + "):");
 		int novaDefesa = console.lerInteiro("Nova Defesa (atual: " + monstro.getDefesa() + "):");
 		int novaVidaMaxima = console.lerInteiro("Nova Vida Máxima (atual: " + monstro.getVidaMaxima() + "):");
-		int novaVidaAtual = console.lerInteiro("Nova Vida Atual (atual: " + monstro.getVida() + "): :");
+		int novaVidaAtual = console.lerInteiro("Nova Vida Atual (atual: " + monstro.getVida() + "):");
 
 		monstro.setAtaque(novoAtaque);
 		monstro.setDefesa(novaDefesa);
