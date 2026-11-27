@@ -1,3 +1,5 @@
+import Excecoes.EquipamentoInvalidoException;
+
 public class Arma extends Item {
     private final int dano;
     private final int nivelRequerido;
@@ -33,7 +35,8 @@ public class Arma extends Item {
     @Override
     public String usar(Personagem personagem) {
         if (!personagem.equipar(this)) {
-            return "Nível insuficiente para equipar " + getNome() + " (requer nível " + nivelRequerido + ").";
+            throw new EquipamentoInvalidoException("Nível insuficiente para equipar " + getNome()
+                    + " (requer nível " + nivelRequerido + ").");
         }
         return "Você empunhou " + getNome() + " [" + getRaridade() + "].";
     }

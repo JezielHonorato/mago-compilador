@@ -1,3 +1,6 @@
+import Excecoes.ArgumentoInvalidoException;
+import Excecoes.ItemNaoEncontradoException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,9 +10,14 @@ public class Inventario {
     private final List<Item> itens = new ArrayList<>();
 
     public String adicionarItem(Item item) {
+        if(item == null) {
+            throw new ArgumentoInvalidoException("Item Inválido.");
+        }
+
         if (itens.size() >= capacidade) {
             return "Inventário cheio! Não foi possível adicionar " + item.getNome() + ".";
         }
+
         itens.add(item);
         return item.getNome() + " [" + item.getRaridade() + "] foi adicionado ao Inventário.";
     }
@@ -18,6 +26,11 @@ public class Inventario {
         if (itens.isEmpty()) {
             return "O Inventário está vazio.";
         }
+
+        if(item == null || !itens.contains(item)) {
+            throw new ItemNaoEncontradoException("Item não encontrado no inventário.");
+        }
+
         String nomeItem = item.getNome();
         itens.remove(item);
         return nomeItem + " foi removido do Inventário.";

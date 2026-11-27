@@ -1,3 +1,5 @@
+import Excecoes.EquipamentoInvalidoException;
+
 public class Armadura extends Item {
     private final int defesa;
     private final int nivelRequerido;
@@ -27,7 +29,8 @@ public class Armadura extends Item {
     @Override
     public String usar(Personagem personagem) {
         if (!personagem.equipar(this)) {
-            return "Nível insuficiente para vestir " + getNome() + " (requer nível " + nivelRequerido + ").";
+            throw new EquipamentoInvalidoException("Nível insuficiente para vestir " + getNome()
+                    + " (requer nível " + nivelRequerido + ").");
         }
         return "Você vestiu " + this.getNome() + " [" + getRaridade() + "].";
     }
