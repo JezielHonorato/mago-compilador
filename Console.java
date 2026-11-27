@@ -8,10 +8,20 @@ public class Console {
 		System.out.println(texto);
 	}
 
+	public void printTitulo() {
+		this.println("");
+		this.println("!====! RPG - Mago Compilador !====!");
+	}
+
+	public void printTitulo(String usuario) {
+		System.out.println("");
+		this.println("!====! RPG - Mago Compilador (" + usuario + ") !====!");
+	}
+
 	public String lerLinha(String label) {
 		System.out.print(label + " ");
 		String entrada = scan.nextLine();
-		if (entrada.trim().equals("")) {
+		if (entrada.trim().equals("")) { // ignorar entradas nulas;
 			return scan.nextLine();
 		}
 		return entrada;
@@ -21,5 +31,23 @@ public class Console {
 		System.out.print(label + " ");
 		int entrada = scan.nextInt();
 		return entrada;
+	}
+
+	private void sleep(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+	}
+
+	public int lerRangeInteiro(String label, int min, int max) {
+		int n = this.lerInteiro(label);
+		if (n <= min || n >= max) {
+			this.println("\nEscolha uma opção válida!");
+			this.sleep(1000);
+			this.println("");
+		}
+		return n;
 	}
 }

@@ -12,30 +12,28 @@ public class Menu {
 	}
 
 	public void exibirMenu() {
-		console.println("!===! RPG - Mago Compilador !===!");
+		console.printTitulo();
 		console.println("1) Entrar");
 		console.println("2) Criar nova conta de Aventureiro");
 		console.println("0) Sair");
 
-		int opcEscolhida = console.lerInteiro("Opção:");
-		console.println("");
-
-		switch (opcEscolhida) {
+		switch (console.lerRangeInteiro("Opção:", 0, 2)) {
 			case 1 -> this.exibirMenuLogin();
 			case 2 -> this.exibirMenuCriarContaAventureiro();
 			case 0 -> console.println("Até a próxima!");
-			default -> console.println("Escolha uma opção válida");
+			default -> exibirMenu();
 		}
 	}
 
 	private void exibirMenuLogin() {
-
-		console.println("!====! RPG - Mago Compilador !====!");
+		console.printTitulo();
 		console.println("!===! Digite suas credenciais !===!");
 
 		String login = console.lerLinha("Login:");
 		String senha = console.lerLinha("Senha:");
 
+		// pede a senha antes de verificar o login pra evitar forca bruta de senha;
+		// jogar tudo pra um service dps
 		Usuario usuarioAtual = arquivoUsuarios.buscarPorLogin(login).orElse(null);
 
 		if (usuarioAtual == null) {
@@ -53,16 +51,14 @@ public class Menu {
 		console.println("Bem-vindo, " + usuarioAtual.getLogin() + "!");
 
 		if (usuarioAtual instanceof Aventureiro) {
-			this.exibirMenuAventureiro(); // resolver depois
+			this.exibirMenuAventureiro();
 		} else {
 			this.exibirMenuMestre();
 		}
-
-		console.println("Erro no servidor, tente novamente mais tarde!");
 	}
 
 	private void exibirMenuCriarContaAventureiro() {
-		console.println("!=============! RPG - Mago Compilador !=============!");
+		console.printTitulo();
 		console.println("!===! Digite as credenciais do novo Aventureito !===!");
 
 		String login = console.lerLinha("Login:");
@@ -71,7 +67,7 @@ public class Menu {
 		try {
 			Aventureiro aventureiro = Aventureiro.registrarAventureiro(arquivoUsuarios, login, senha);
 			console.println(
-					"Usuário \"" + aventureiro.getLogin() + "\" criado com sucesso! (ID: " + aventureiro.getId() + ")");
+					"Usuário " + aventureiro.getLogin() + " criado com sucesso! (ID: " + aventureiro.getId() + ")");
 		} catch (IllegalArgumentException e) {
 			console.println("Não foi possível cadastrar: " + e.getMessage());
 		}
@@ -79,68 +75,60 @@ public class Menu {
 	}
 
 	private void exibirMenuAventureiro() {
-		console.println("!===! RPG - Mago Compilador ( " + this.usuarioLogado.getLogin() + " ) !===!");
+		console.printTitulo(this.usuarioLogado.getLogin());
 		console.println("1) Nova Partida");
 		console.println("2) Ranking");
 		console.println("3) Histórico");
 		console.println("0) Sair");
 
-		int opcEscolhida = console.lerInteiro("Opção:");
-		console.println("");
-
-		switch (opcEscolhida) {
+		switch (console.lerRangeInteiro("Opção:", 0, 3)) {
 			case 1 -> console.println("Erro no servidor, tente novamente mais tarde!");
 			case 2 -> console.println("Erro no servidor, tente novamente mais tarde!");
 			case 3 -> console.println("Erro no servidor, tente novamente mais tarde!");
 			case 0 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			default -> console.println("Escolha uma opção válida");
+			default -> exibirMenuAventureiro();
 		}
 	}
 
 	private void exibirMenuMestre() {
-		console.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		console.printTitulo(this.usuarioLogado.getLogin());
 		console.println("1) Usuários");
 		console.println("2) Itens");
 		console.println("3) Monstros");
 		console.println("4) Relatórios");
 		console.println("0) Sair");
 
-		int opcEscolhida = console.lerInteiro("Opção:");
-		console.println("");
-
-		switch (opcEscolhida) {
+		switch (console.lerRangeInteiro("Opção:", 0, 4)) {
 			case 1 -> console.println("Erro no servidor, tente novamente mais tarde!");
 			case 2 -> console.println("Erro no servidor, tente novamente mais tarde!");
 			case 3 -> this.exibirMenuMonstro();
 			case 4 -> console.println("Erro no servidor, tente novamente mais tarde!");
 			case 0 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			default -> console.println("Escolha uma opção válida");
+			default -> exibirMenuMestre();
 		}
 	}
 
 	private void exibirMenuMonstro() {
-		console.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		console.printTitulo(this.usuarioLogado.getLogin());
+		console.println("!==============!  Menu de Monstros !==============!"); // editar dps;
 		console.println("1) Listar ");
 		console.println("2) Adicionar");
 		console.println("3) Remover");
 		console.println("4) Atualizar");
 		console.println("0) Sair");
 
-		int opcEscolhida = console.lerInteiro("Opção:");
-		console.println("");
-
-		switch (opcEscolhida) {
+		switch (console.lerRangeInteiro("Opção:", 0, 4)) {
 			case 1 -> this.exibirTodosMonstros();
 			case 2 -> this.exibirMenuAdicionarMonstro();
 			case 3 -> this.exibirMenuRemoverMonstro();
 			case 4 -> this.exibirMenuAtualizarMonstro();
 			case 0 -> console.println("Erro no servidor, tente novamente mais tarde!");
-			default -> console.println("Escolha uma opção válida");
+			default -> exibirMenuMonstro();
 		}
 	}
 
 	private void exibirMenuRemoverMonstro() {
-		console.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
+		console.printTitulo(this.usuarioLogado.getLogin());
 		console.println("!===! Remover Monstro !===!");
 		int id = console.lerInteiro("ID do Monstro:");
 
@@ -155,8 +143,8 @@ public class Menu {
 	}
 
 	private void exibirMenuAtualizarMonstro() {
-		console.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
-		console.println("!===! Atualizar Monstro !===!");
+		console.printTitulo(this.usuarioLogado.getLogin());
+		console.println("!==============! Atualizar Monstro !==============!");
 		int id = console.lerInteiro("ID do Monstro:");
 
 		ArquivoMonstro arquivoMonstro = new ArquivoMonstro(Path.of("data"));
@@ -188,8 +176,8 @@ public class Menu {
 	}
 
 	private void exibirMenuAdicionarMonstro() {
-		console.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
-		console.println("!===! Adicionar Monstro !===!");
+		console.printTitulo(this.usuarioLogado.getLogin());
+		console.println("!==============! Adicionar Monstro !==============!");
 
 		String nome = console.lerLinha("Nome:");
 		int ataque = console.lerInteiro("Ataque:");
@@ -206,8 +194,8 @@ public class Menu {
 	}
 
 	private void exibirTodosMonstros() {
-		console.println("!===! RPG - Mago Compilador ( nome do login ) !===!"); // editar dps;
-		console.println("!===! Lista de Monstros !===!");
+		console.printTitulo(this.usuarioLogado.getLogin());
+		console.println("!==============! Lista de Monstros !==============!");
 		console.println("ID | Nome | Ataque | Defesa | Vida Máxima | Vida Atual");
 		ArquivoMonstro arquivoMonstro = new ArquivoMonstro(Path.of("data"));
 		arquivoMonstro.carregarArquivo();
