@@ -1,6 +1,6 @@
-import Excecoes.ArgumentoInvalidoException;
-import Excecoes.GuildaException;
-import Excecoes.ItemNaoEncontradoException;
+import excecoes.ArgumentoInvalidoException;
+import excecoes.GuildaException;
+import excecoes.ItemNaoEncontradoException;
 
 public abstract class Personagem extends Criatura {
 

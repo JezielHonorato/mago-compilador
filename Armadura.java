@@ -1,4 +1,4 @@
-import Excecoes.EquipamentoInvalidoException;
+import excecoes.EquipamentoInvalidoException;
 
 public class Armadura extends Item {
     private final int defesa;

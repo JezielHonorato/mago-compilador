@@ -1,4 +1,4 @@
-import Excecoes.EquipamentoInvalidoException;
+import excecoes.EquipamentoInvalidoException;
 
 public class Arma extends Item {
     private final int dano;

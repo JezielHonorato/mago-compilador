@@ -1,18 +1,18 @@
 
 import java.nio.file.Path;
 
-public class ArquivoMonstro extends Arquivo<Monstro>{
-    public ArquivoMonstro(Path pasta) {
+public class ArquivoMonstro extends Arquivo<Monstro> {
+	public ArquivoMonstro(Path pasta) {
 		super(pasta.resolve("monstros.txt"), "monstro");
 	}
 
-    @Override
+	@Override
 	protected String serializar(Monstro m) {
 		return String.join("|", m.getNome(), String.valueOf(m.getId()), String.valueOf(m.getAtaque()),
 				String.valueOf(m.getDefesa()), String.valueOf(m.getVidaMaxima()), String.valueOf(m.getVida()));
 	}
 
-	@Override 
+	@Override
 	protected Monstro desserializar(String[] c) {
 		String nome = c[0];
 		int id = Integer.parseInt(c[1]);
@@ -21,6 +21,6 @@ public class ArquivoMonstro extends Arquivo<Monstro>{
 		int vidaMaxima = Integer.parseInt(c[4]);
 		int vida = Integer.parseInt(c[5]);
 
-		return new Monstro(id, ataque, defesa, nome, vida, vidaMaxima);
+		return new Monstro(id, nome, vidaMaxima, vida, ataque, defesa);
 	}
 }

@@ -201,9 +201,8 @@ public class Menu {
 		int ataque = console.lerInteiro("Ataque:");
 		int defesa = console.lerInteiro("Defesa:");
 		int vidaMaxima = console.lerInteiro("Vida Máxima:");
-		int vidaAtual = console.lerInteiro("Vida Atual:");
 
-		Monstro monstro = new Monstro(ataque, defesa, nome, vidaAtual, vidaMaxima);
+		Monstro monstro = new Monstro(nome, vidaMaxima, vidaMaxima, ataque, defesa);
 		ArquivoMonstro arquivoMonstro = new ArquivoMonstro(Path.of("data"));
 		arquivoMonstro.carregarArquivo();
 		arquivoMonstro.adicionar(monstro);
