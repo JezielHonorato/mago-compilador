@@ -86,7 +86,7 @@ public class Menu {
 			opcao = console.lerRangeInteiro("Opção:", 0, 3);
 
 			switch (opcao) {
-				case 1 -> console.println("Erro no servidor, tente novamente mais tarde!");
+				case 1 -> this.exibirMenuPartida();
 				case 2 -> console.println("Erro no servidor, tente novamente mais tarde!");
 				case 3 -> console.println("Erro no servidor, tente novamente mais tarde!");
 				case 0 -> {
@@ -221,5 +221,30 @@ public class Menu {
 			console.println(m.getId() + " | " + m.getNome() + " | " + m.getAtaque() + " | " + m.getDefesa()
 					+ " | " + m.getVidaMaxima() + " | " + m.getVida());
 		}
+	}
+
+	private void exibirMenuPartida() {
+		console.printTitulo(this.usuarioLogado.getLogin());
+		console.println("!===! Nova Partida - Cadastrar Personagem !===!");
+
+		console.println("Escolha o tipo do seu personagem");
+		for (TipoPersonagem tipo : TipoPersonagem.values()) {
+			console.println((tipo.ordinal() + 1) + ") " + tipo.getNome());
+		}
+		console.println("0) Sair");
+		int opcaoClasse = console.lerRangeInteiro("Opção:", 0, TipoPersonagem.values().length);
+		TipoPersonagem tipoPersonagem = TipoPersonagem.values()[opcaoClasse - 1];
+
+		String nomePersonagem = console.lerLinha("Escolha o nome do seu personagem (digite 0 para voltar ao menu)");
+		if (nomePersonagem.equals("0")) {
+			this.exibirMenuAventureiro();
+		}
+
+		Personagem personagem = Personagem.criar(tipoPersonagem, nomePersonagem);
+		iniciarPartida(personagem);
+	}
+
+	private void iniciarPartida(Personagem personagem) {
+		console.println("Erro no servidor, tente novamente mais tarde!");
 	}
 }

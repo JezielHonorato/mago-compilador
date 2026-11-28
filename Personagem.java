@@ -13,8 +13,8 @@ public abstract class Personagem extends Criatura {
 	private Arma armaEquipada;
 	private Armadura armaduraEquipada;
 
-	public Personagem(int ataque, int defesa, String nome, int vida, int vidaMaxima, Inventario inventario) {
-		super(ataque, defesa, nome, vida, vidaMaxima);
+	public Personagem(String nome, int vidaMaxima, int vida, int ataque, int defesa, Inventario inventario) {
+		super(nome, vidaMaxima, vida, ataque, defesa);
 		this.nivel = 1;
 		this.experiencia = 0;
 		this.ouro = 0;
@@ -23,8 +23,16 @@ public abstract class Personagem extends Criatura {
 		this.inventario = (inventario != null) ? inventario : new Inventario();
 	}
 
-	public Personagem(int ataque, int defesa, String nome, int vida, int vidaMaxima) {
-		this(ataque, defesa, nome, vida, vidaMaxima, new Inventario());
+	public Personagem(String nome, int vidaMaxima, int vida, int ataque, int defesa) {
+		this(nome, vidaMaxima, vida, ataque, defesa, new Inventario());
+	}
+
+	public static Personagem criar(TipoPersonagem classe, String nome) {
+		return switch (classe) {
+			case GUERREIRO -> new Guerreiro(nome);
+			case MAGO -> new Mago(nome);
+			case LADINO -> new Ladino(nome);
+		};
 	}
 
 	@Override
@@ -47,18 +55,18 @@ public abstract class Personagem extends Criatura {
 		try {
 			String resultado = this.inventario.adicionarItem(item);
 			return "Você encontrou [" + item.getRaridade() + "] " + item.getNome() + "! " + resultado;
-		}catch (ArgumentoInvalidoException e){
+		} catch (ArgumentoInvalidoException e) {
 			return e.getMessage();
 		}
 	}
 
 	public String usarItem(Item item) {
-		try{
+		try {
 			if (item == null || !inventario.contem(item)) {
 				throw new ItemNaoEncontradoException("Item não encontrado no inventário.");
 			}
 			return item.usar(this);
-		}catch (GuildaException e){
+		} catch (GuildaException e) {
 			return e.getMessage();
 		}
 	}

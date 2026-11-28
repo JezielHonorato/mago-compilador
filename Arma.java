@@ -3,9 +3,9 @@ import Excecoes.EquipamentoInvalidoException;
 public class Arma extends Item {
     private final int dano;
     private final int nivelRequerido;
-    private final TipoArmas tipoArma;
+    private final TipoArma tipoArma;
 
-    public Arma(String nome, int valor, int dano, int nivelRequerido, TipoArmas tipoArma, Raridade raridade) {
+    public Arma(String nome, int valor, int dano, int nivelRequerido, TipoArma tipoArma, Raridade raridade) {
         super(nome, valor, raridade);
         if (dano > getRaridade().getPoderMaximo()) {
             this.dano = getRaridade().getPoderMaximo();
@@ -16,7 +16,7 @@ public class Arma extends Item {
         this.tipoArma = tipoArma;
     }
 
-    public Arma(String nome, int valor, int dano, int nivelRequerido, TipoArmas tipoArma) {
+    public Arma(String nome, int valor, int dano, int nivelRequerido, TipoArma tipoArma) {
         this(nome, valor, dano, nivelRequerido, tipoArma, Raridade.determinarPorPoder(dano));
     }
 
@@ -28,7 +28,7 @@ public class Arma extends Item {
         return nivelRequerido;
     }
 
-    public TipoArmas getTipoArma() {
+    public TipoArma getTipoArma() {
         return tipoArma;
     }
 

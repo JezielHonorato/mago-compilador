@@ -5,12 +5,12 @@ public abstract class Criatura extends Entidade {
 	private int ataque;
 	private int defesa;
 
-	public Criatura(int ataque, int defesa, String nome, int vida, int vidaMaxima) {
+	public Criatura(String nome, int vidaMaxima, int vida, int ataque, int defesa) {
+		this.nome = nome;
+		this.vidaMaxima = vidaMaxima;
+		this.vida = vida;
 		this.ataque = ataque;
 		this.defesa = defesa;
-		this.nome = nome;
-		this.vida = vida;
-		this.vidaMaxima = vidaMaxima;
 	}
 
 	public boolean estaVivo() {
@@ -65,7 +65,10 @@ public abstract class Criatura extends Entidade {
 		aoReceberDano(dano);
 		return dano;
 	}
-	public int receberAtaque(int poder) { return receberAtaque(poder, 0.0); }
+
+	public int receberAtaque(int poder) {
+		return receberAtaque(poder, 0.0);
+	}
 
 	public int curar(int quantidade) {
 		int antes = vida;
@@ -79,9 +82,12 @@ public abstract class Criatura extends Entidade {
 		return perda;
 	}
 
-	protected int absorverDano(int dano) { return dano; }
-	
-	protected void aoReceberDano(int dano) { }
+	protected int absorverDano(int dano) {
+		return dano;
+	}
+
+	protected void aoReceberDano(int dano) {
+	}
 
 	protected void aumentarAtributos(int vida, int atk, int def) {
 		vidaMaxima += vida;
